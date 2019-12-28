@@ -1,4 +1,4 @@
-package ToMoodAnalyses;
+package com.bridgelaz;
 
 public class MoodException extends RuntimeException
 {

@@ -1,9 +1,10 @@
-import ToMoodAnalyses.ToMoodAnalyses;
+import com.bridgelaz.ToMoodAnalyses;
+import com.bridgelaz.MoodAnalyserFacory;
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 
 public class MoodAnalyser{
     @Test
@@ -42,5 +43,41 @@ public class MoodAnalyser{
         }
     }
 
+    @Test
+    public void givenMoodAnalyzerObject_WhenProper_ShouldReturnObject() {
+        Constructor<?> constructor = null;
+        try {
+            constructor = Class.forName("com.bridgelaz.ToMoodAnalyses").getConstructor(String.class);
+            Object myobj = constructor.newInstance("i am a happy");
+            ToMoodAnalyses myobj1 = (ToMoodAnalyses) myobj;
+                String mood= myobj1.analyse();
+                Assert.assertEquals("happy",mood);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
 
+    }
+
+    @Test
+    public void givenMoodAnalyser_WhenProper_ShouldReturnObject() {
+        ToMoodAnalyses moodAnalyses = MoodAnalyserFacory.createMoodAnalyser("I am happy");
+        String mood = moodAnalyses.analyse();
+        Assert.assertEquals("happy",mood);
+    }
+
+    @Test
+    public void compareObject() {
+        ToMoodAnalyses obj=new ToMoodAnalyses("I am happy");
+        ToMoodAnalyses obj1 = MoodAnalyserFacory.createMoodAnalyser("I am happy");
+        Assert.assertEquals(true,obj.equals(obj1));
+    }
+    
 }
