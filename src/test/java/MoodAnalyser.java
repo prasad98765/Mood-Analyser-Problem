@@ -97,5 +97,31 @@ public class MoodAnalyser{
         }
     }
 
+    @Test
+    public void givenWrongConstructor_WhenImproper_ShouldReturnNoSuchMethod(){
+        Constructor<?> constructor = null;
+        try {
+            constructor = Class.forName("com.bridgelaz.ToMoodAnalyses").getConstructor(int.class);
+            Object myobj = constructor.newInstance("i am a happy");
+            ToMoodAnalyses myobj1 = (ToMoodAnalyses) myobj;
+            String mood= myobj1.analyse();
+            Assert.assertEquals("happy",mood);
+        } catch (NoSuchMethodException e) {
+            try {
+                throw new MoodException(MoodException.Exceptiontype.NO_SUCH_METHOD,"Enter valid Method Name");
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
 
