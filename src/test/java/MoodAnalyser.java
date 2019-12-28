@@ -1,3 +1,4 @@
+import com.bridgelaz.MoodException;
 import com.bridgelaz.ToMoodAnalyses;
 import com.bridgelaz.MoodAnalyserFacory;
 import org.junit.Assert;
@@ -79,5 +80,22 @@ public class MoodAnalyser{
         ToMoodAnalyses obj1 = MoodAnalyserFacory.createMoodAnalyser("I am happy");
         Assert.assertEquals(true,obj.equals(obj1));
     }
-    
+
+    @Test
+    public void givenWrongClassName_WhenImproper_ShouldReturnNotFoundException() throws ClassNotFoundException {
+        Constructor<?> constructor = null;
+        try {
+            constructor = Class.forName("com.bridgelaz.Mood").getConstructor(String.class);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            try {
+                throw new MoodException(MoodException.Exceptiontype.NO_SUCH_CLASS, "Enter valid class Name");
+            } catch (MoodException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
 }
+
