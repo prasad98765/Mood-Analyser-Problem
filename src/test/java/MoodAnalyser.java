@@ -1,7 +1,6 @@
 import com.bridgelaz.MoodException;
 import com.bridgelaz.ToMoodAnalyses;
-import com.bridgelaz.MoodAnalyserFacory;
-import org.graalvm.compiler.lir.alloc.trace.lsra.TraceLinearScanLifetimeAnalysisPhase;
+import com.bridgelaz.MoodAnalyserReflection;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -71,7 +70,7 @@ public class MoodAnalyser{
 
     @Test
     public void givenMoodAnalyser_WhenProper_ShouldReturnObject() {
-        ToMoodAnalyses moodAnalyses = MoodAnalyserFacory.createMoodAnalyser("I am happy");
+        ToMoodAnalyses moodAnalyses = MoodAnalyserReflection.createMoodAnalyser("I am happy");
         String mood = moodAnalyses.analyse();
         Assert.assertEquals("happy",mood);
     }
@@ -79,7 +78,7 @@ public class MoodAnalyser{
     @Test
     public void compareObject() {
         ToMoodAnalyses obj=new ToMoodAnalyses("I am happy");
-        ToMoodAnalyses obj1 = MoodAnalyserFacory.createMoodAnalyser("I am happy");
+        ToMoodAnalyses obj1 = MoodAnalyserReflection.createMoodAnalyser("I am happy");
         Assert.assertEquals(true,obj.equals(obj1));
     }
 
@@ -127,8 +126,8 @@ public class MoodAnalyser{
 
     @Test
     public void whenGivenConstructorwithObject_shouldReturnObject() {
-        Constructor constructor = MoodAnalyserFacory.getConstructor(String.class);
-        Object object = MoodAnalyserFacory.getObject(constructor, "i am happy");
+        Constructor constructor = MoodAnalyserReflection.getConstructor(String.class);
+        Object object = MoodAnalyserReflection.getObject(constructor, "i am happy");
         ToMoodAnalyses object1 = (ToMoodAnalyses) object;
         Assert.assertEquals(true,object1.equals(new ToMoodAnalyses("i am happy")));
 
@@ -136,28 +135,25 @@ public class MoodAnalyser{
 
     @Test
     public void whenGivenConstructorwithNoparameter_shouldRetrunObject() {
-        Constructor constructor = MoodAnalyserFacory.getConstructor();
-        Object object = MoodAnalyserFacory.getObject(constructor);
+        Constructor constructor = MoodAnalyserReflection.getConstructor();
+        Object object = MoodAnalyserReflection.getObject(constructor);
         ToMoodAnalyses object1 = (ToMoodAnalyses) object;
         Assert.assertEquals(true,object1.equals(new ToMoodAnalyses()));
     }
 
     @Test
-    public void whenGivenMood_usingInvokeMethod_shouldReturnProperMessage() {
-        Method analyser = null;
+    public void whenGivenMood_usingInvokeMethod_shouldReturnProperMessage() throws NoSuchMethodException {
+
+        Object object = MoodAnalyserReflection.getMethod("analyser");
+        String mood = null;
         try {
-            Constructor constructor = MoodAnalyserFacory.getConstructor(String.class);
-            Object object = MoodAnalyserFacory.getObject(constructor, "i am sad");
-            analyser = ToMoodAnalyses.class.getDeclaredMethod("analyse");
-            Object object1 = analyser.invoke(object);
-            Assert.assertEquals("sad", object1.toString());
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
+            mood = (String) ((Method) object).invoke(new ToMoodAnalyses(), "i am sad");
         } catch (IllegalAccessException e) {
             e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
         }
+        Assert.assertEquals("sad",mood);
 
     }
 }
