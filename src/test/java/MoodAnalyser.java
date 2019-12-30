@@ -1,11 +1,13 @@
 import com.bridgelaz.MoodException;
 import com.bridgelaz.ToMoodAnalyses;
 import com.bridgelaz.MoodAnalyserFacory;
+import org.graalvm.compiler.lir.alloc.trace.lsra.TraceLinearScanLifetimeAnalysisPhase;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 public class MoodAnalyser{
     @Test
@@ -138,6 +140,25 @@ public class MoodAnalyser{
         Object object = MoodAnalyserFacory.getObject(constructor);
         ToMoodAnalyses object1 = (ToMoodAnalyses) object;
         Assert.assertEquals(true,object1.equals(new ToMoodAnalyses()));
+    }
+
+    @Test
+    public void whenGivenMood_usingInvokeMethod_shouldReturnProperMessage() {
+        Method analyser = null;
+        try {
+            Constructor constructor = MoodAnalyserFacory.getConstructor(String.class);
+            Object object = MoodAnalyserFacory.getObject(constructor, "i am sad");
+            analyser = ToMoodAnalyses.class.getDeclaredMethod("analyse");
+            Object object1 = analyser.invoke(object);
+            Assert.assertEquals("sad", object1.toString());
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
     }
 }
 
