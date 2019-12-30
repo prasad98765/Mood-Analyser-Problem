@@ -15,6 +15,12 @@ public class ToMoodAnalyses
         this.message=message;
     }
 
+    public String analyser(String message)
+    {
+        this.message=message;
+        return analyse();
+    }
+
     public String analyse(){
         try {
             if (message.length() == 0)

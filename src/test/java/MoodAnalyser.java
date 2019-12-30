@@ -5,6 +5,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
@@ -156,5 +157,22 @@ public class MoodAnalyser{
         Assert.assertEquals("sad",mood);
 
     }
+
+    @Test
+    public void whenGivenWrongFieldMessage_ShouldReturnNoSuchField() {
+        Class<?> moodAnalyzerclass = null;
+        try {
+            moodAnalyzerclass = Class.forName("com.bridgelaz.ToMoodAnalyses");
+            Field field=moodAnalyzerclass.getField("message123");
+            Assert.assertEquals(field,"message");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
 }
 
