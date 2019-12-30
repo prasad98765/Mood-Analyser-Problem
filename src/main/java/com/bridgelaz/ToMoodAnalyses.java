@@ -7,9 +7,11 @@ public class ToMoodAnalyses
 {
     public String message;
 
-    public ToMoodAnalyses(){}
+    public ToMoodAnalyses(){
 
+    }
     public ToMoodAnalyses(String message){
+
         this.message=message;
     }
 
@@ -34,5 +36,6 @@ public class ToMoodAnalyses
         ToMoodAnalyses that = (ToMoodAnalyses) o;
         return Objects.equals(message, that.message);
     }
-    
+
+
 }
