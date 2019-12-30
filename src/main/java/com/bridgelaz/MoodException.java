@@ -8,7 +8,7 @@ public class MoodException extends RuntimeException
     }
 
     public enum Exceptiontype {
-        ENTERED_NULL, ENTERED_EMPTY, NO_SUCH_CLASS, NO_SUCH_METHOD,NO_FLELD_FOUND;
+        ENTERED_NULL, ENTERED_EMPTY, NO_SUCH_CLASS, NO_SUCH_METHOD,NO_FLELD_FOUND,NULL_MESSAGE_FOUND;
     }
 
     Exceptiontype type;

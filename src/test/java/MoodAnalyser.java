@@ -176,5 +176,31 @@ public class MoodAnalyser {
 
 
     }
+
+    @Test
+    public void whenGivenNullMessage_ShouldReturnNullPointerException() {
+        Class<?> moodAnalyzercltass = null;
+        try {
+            Object object = MoodAnalyserReflection.getMethod("analyser");
+            String mood = (String) ((Method) object).invoke(new ToMoodAnalyses(), null);
+            Assert.assertEquals("sad", mood);
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (IllegalArgumentException e) {
+            try {
+                throw new MoodException(MoodException.Exceptiontype.ENTERED_NULL, "Enter the Valid Message");
+            } catch (MoodException ex) {
+                ex.printStackTrace();
+            }
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+
+
+    }
 }
 
