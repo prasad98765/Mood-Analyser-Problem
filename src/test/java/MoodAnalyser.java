@@ -9,19 +9,19 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-public class MoodAnalyser{
+public class MoodAnalyser {
     @Test
     public void whenGivenSadMessage_ShouldReturnSad() {
         ToMoodAnalyses Analyses = new ToMoodAnalyses("i am sad Right now");
         String message = Analyses.analyse();
-        Assert.assertEquals( "sad", message);
+        Assert.assertEquals("sad", message);
     }
 
     @Test
     public void whenGivenHappyMessage_ShouldReturnHapply() {
         ToMoodAnalyses Analyses = new ToMoodAnalyses("i am happy now");
         String message = Analyses.analyse();
-        Assert.assertEquals("happy",message);
+        Assert.assertEquals("happy", message);
     }
 
     @Test
@@ -29,8 +29,7 @@ public class MoodAnalyser{
         ToMoodAnalyses Analyses = new ToMoodAnalyses(null);
         try {
             String message = Analyses.analyse();
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             Assert.assertEquals("Please Enter Valid Input", e.getMessage());
         }
     }
@@ -40,8 +39,7 @@ public class MoodAnalyser{
         ToMoodAnalyses Analyses = new ToMoodAnalyses("");
         try {
             String message = Analyses.analyse();
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             Assert.assertEquals("Please Enter Valid Input", e.getMessage());
         }
     }
@@ -53,8 +51,8 @@ public class MoodAnalyser{
             constructor = Class.forName("com.bridgelaz.ToMoodAnalyses").getConstructor(String.class);
             Object myobj = constructor.newInstance("i am a happy");
             ToMoodAnalyses myobj1 = (ToMoodAnalyses) myobj;
-                String mood= myobj1.analyse();
-                Assert.assertEquals("happy",mood);
+            String mood = myobj1.analyse();
+            Assert.assertEquals("happy", mood);
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
@@ -73,14 +71,14 @@ public class MoodAnalyser{
     public void givenMoodAnalyser_WhenProper_ShouldReturnObject() {
         ToMoodAnalyses moodAnalyses = MoodAnalyserReflection.createMoodAnalyser("I am happy");
         String mood = moodAnalyses.analyse();
-        Assert.assertEquals("happy",mood);
+        Assert.assertEquals("happy", mood);
     }
 
     @Test
     public void compareObject() {
-        ToMoodAnalyses obj=new ToMoodAnalyses("I am happy");
+        ToMoodAnalyses obj = new ToMoodAnalyses("I am happy");
         ToMoodAnalyses obj1 = MoodAnalyserReflection.createMoodAnalyser("I am happy");
-        Assert.assertEquals(true,obj.equals(obj1));
+        Assert.assertEquals(true, obj.equals(obj1));
     }
 
     @Test
@@ -100,17 +98,17 @@ public class MoodAnalyser{
     }
 
     @Test
-    public void givenWrongConstructor_WhenImproper_ShouldReturnNoSuchMethod(){
+    public void givenWrongConstructor_WhenImproper_ShouldReturnNoSuchMethod() {
         Constructor<?> constructor = null;
         try {
             constructor = Class.forName("com.bridgelaz.ToMoodAnalyses").getConstructor(int.class);
             Object myobj = constructor.newInstance("i am a happy");
             ToMoodAnalyses myobj1 = (ToMoodAnalyses) myobj;
-            String mood= myobj1.analyse();
-            Assert.assertEquals("happy",mood);
+            String mood = myobj1.analyse();
+            Assert.assertEquals("happy", mood);
         } catch (NoSuchMethodException e) {
             try {
-                throw new MoodException(MoodException.Exceptiontype.NO_SUCH_METHOD,"Enter valid Method Name");
+                throw new MoodException(MoodException.Exceptiontype.NO_SUCH_METHOD, "Enter valid Method Name");
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
@@ -130,7 +128,7 @@ public class MoodAnalyser{
         Constructor constructor = MoodAnalyserReflection.getConstructor(String.class);
         Object object = MoodAnalyserReflection.getObject(constructor, "i am happy");
         ToMoodAnalyses object1 = (ToMoodAnalyses) object;
-        Assert.assertEquals(true,object1.equals(new ToMoodAnalyses("i am happy")));
+        Assert.assertEquals(true, object1.equals(new ToMoodAnalyses("i am happy")));
 
     }
 
@@ -139,7 +137,7 @@ public class MoodAnalyser{
         Constructor constructor = MoodAnalyserReflection.getConstructor();
         Object object = MoodAnalyserReflection.getObject(constructor);
         ToMoodAnalyses object1 = (ToMoodAnalyses) object;
-        Assert.assertEquals(true,object1.equals(new ToMoodAnalyses()));
+        Assert.assertEquals(true, object1.equals(new ToMoodAnalyses()));
     }
 
     @Test
@@ -154,7 +152,7 @@ public class MoodAnalyser{
         } catch (InvocationTargetException e) {
             e.printStackTrace();
         }
-        Assert.assertEquals("sad",mood);
+        Assert.assertEquals("sad", mood);
 
     }
 
@@ -163,16 +161,20 @@ public class MoodAnalyser{
         Class<?> moodAnalyzerclass = null;
         try {
             moodAnalyzerclass = Class.forName("com.bridgelaz.ToMoodAnalyses");
-            Field field=moodAnalyzerclass.getField("message123");
-            Assert.assertEquals(field,"message");
+            Field field = moodAnalyzerclass.getField("message123");
+            Assert.assertEquals(field, "message");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (NoSuchFieldException e) {
-            e.printStackTrace();
+            try {
+                throw new MoodException(MoodException.Exceptiontype.NO_FLELD_FOUND, "NO_FIELD_FOUND");
+            } catch (MoodException ex) {
+                ex.printStackTrace();
+
+            }
         }
+
+
     }
-
-
-
 }
 
